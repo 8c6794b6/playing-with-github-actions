@@ -1,0 +1,8 @@
+Version 1.1
+===========
+
+* Quick brown fox
+
+* Jumps over the
+
+* Lazy dog.
