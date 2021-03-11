@@ -1,24 +1,3 @@
-# Hello world javascript action
+# Sandbox repository to play with GitHub actions
 
-This action prints "Hello World" or "Hello" + the name of a person to
-greet to the log
-
-## Inputs
-
-### `who-to-greet`
-
-**Required** The name of the person to greet. Default `"World"`.
-
-## Outputs
-
-### `time`
-
-The time we greeted you.
-
-## Example usage
-
-```
-uses: 8c6794b6/playing-with-github-action
-with:
-  who-to-greet: 'Mona the Octocat'
-```
+This repository contains some codes to play with GitHub actions.
