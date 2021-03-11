@@ -1,0 +1,26 @@
+name: 'Composite01'
+description: 'Sample composite steps action'
+
+inputs:
+  who-to-greet:
+    description: 'who to greet'
+    required: true
+    default: 'World'
+
+outputs:
+  time:
+    description: 'The time we greeted you'
+    value: ${{ steps.time.outputs.time }}
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.who-to-greet }}.
+      shell: bash
+
+    - id: time
+      run: echo "::set-output name=time::$(date)"
+      shell: bash
+
+    - run: ${{ github.action_path }}/goodbye.sh
+      shell: bash

@@ -36,3 +36,19 @@ jobs:
 
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
+
+  composite01:
+    runs-on: ubuntu-latest
+    name: Running composite run steps action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Hello world actoin
+        uses: ./.github/actions/composite01
+        id: hello
+        with:
+          who-to-greet: 'Quux'
+
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
