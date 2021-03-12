@@ -5,7 +5,7 @@ description: 'Steps to make GitHub release'
 outputs:
   url:
     description: 'URL of release page in GitHub'
-    value ${{ step.rel.outputs.url }}
+    value: ${{ step.rel.outputs.url }}
 
 runs:
   using: "composite"
