@@ -6,8 +6,9 @@ name: release
 #       - 'v*'
 
 on:
-  branch:
-    - 'release/*'
+  push:
+    branches:
+      - 'release/*'
   # workflow_run:
   #   workflows: ["main"]
   #   types:
