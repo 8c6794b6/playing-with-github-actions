@@ -6,11 +6,13 @@ name: release
 #       - 'v*'
 
 on:
-  workflow_run:
-    workflows: ["main"]
-    types:
-      - completed
-      - requested
+  branch:
+    - 'release/*'
+  # workflow_run:
+  #   workflows: ["main"]
+  #   types:
+  #     - completed
+  #     - requested
 
 jobs:
   release:

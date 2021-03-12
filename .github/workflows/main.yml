@@ -54,3 +54,15 @@ jobs:
 
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
+
+  release:
+    runs-on: ubuntu-latest
+    name: Release
+    needs:
+      - hello_world_job
+      - via_github
+      - composite01
+    steps:
+      - name: Run local release actions on new tag
+        if: startsWith(github.ref, 'refs/tags')
+        uses: ./.github/actions/release
