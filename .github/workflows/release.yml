@@ -22,7 +22,11 @@ jobs:
       - name: Echo github.ref
         run: echo ${{ github.ref }}
 
-      - name: Run release steps
+      - name: Checkout on new tag
+        if: startsWith(github.ref, 'refs/tags')
+        uses: actions/checkout@v2
+
+      - name: Run release steps on new tag
         if: startsWith(github.ref, 'refs/tags')
         uses: ./.github/actions/release
 

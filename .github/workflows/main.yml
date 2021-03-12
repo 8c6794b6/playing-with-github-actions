@@ -57,12 +57,16 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    name: Release
+    name: Release on new tag
     needs:
       - hello_world_job
       - via_github
       - composite01
     steps:
+      - name: Checkout
+        if: startsWith(github.ref, 'refs/tags')
+        uses: actions/checkout@v2
+
       - name: Run local release actions on new tag
         if: startsWith(github.ref, 'refs/tags')
         uses: ./.github/actions/release
