@@ -16,6 +16,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Echo github.ref
+        run: echo ${{ github.ref }}
+
       - name: Run release steps
         if: startsWith(github.ref, 'refs/tags')
         uses: ./.github/actions/release
