@@ -1,0 +1,41 @@
+name: 'Release'
+
+description: 'Steps to make GitHub release'
+
+outputs:
+  url:
+    description: 'URL of release page in GitHub'
+    value ${{ step.rel.outputs.url }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build
+      run: echo ${{ github.ref }} > Release.txt
+
+    - name: Show workflow
+      run: echo ${{ github.workflow }}
+
+    - name: Test
+      run: cat Release.txt
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      id: rel
+      with:
+        draft: true
+        prerelease: true
+        body_path: changelogs/latest.txt
+        files: |
+          Release.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Show released url
+      run: echo ${{ steps.rel.outputs.url }}
+
+    - name: Set URL to output value
+      run: echo "::set-output name=url::${{ steps.rel.outputs.url }}"
