@@ -27,8 +27,7 @@ jobs:
         with:
           draft: true
           prerelease: true
-          #body: '"body" parameter of action-gh-release'
-          body_path: changelogs/v1.1.txt
+          body_path: changelogs/latest.txt
           files: |
             Release.txt
         env:

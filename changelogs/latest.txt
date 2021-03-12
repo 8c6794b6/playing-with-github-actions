@@ -1,0 +1,8 @@
+Summary of changes
+==================
+
+* Blah blah blah
+
+* Quux quux quux
+
+* ... and lots of small improvements and bug fixes.
