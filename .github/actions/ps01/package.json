@@ -5,15 +5,16 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf output dist",
-      "build": "spago bundle-app -t output/index.js",
-      "dist": "ncc build -m output/index.js",
-      "all": "yarn build && yarn dist"
+    "build": "spago bundle-app -t output/index.js",
+    "ncc": "ncc build -m output/index.js",
+    "all": "yarn build && yarn ncc"
   },
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0"
   },
   "devDependencies": {
+    "@actions/io": "^1.0.2",
     "@vercel/ncc": "^0.27.0",
     "purescript": "^0.14.0",
     "spago": "^0.19.1"
