@@ -90,7 +90,6 @@ jobs:
         run: cd .github/actions/ts01 && yarn && yarn clean && yarn all
 
   ps01:
-    runs-on: ubuntu-latest
     name: Running action made with PureScript
     strategy:
       matrix:
