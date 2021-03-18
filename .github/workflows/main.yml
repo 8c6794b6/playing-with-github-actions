@@ -61,7 +61,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Hello world actoin
+      - name: Hello world action
         uses: ./.github/actions/composite01
         id: hello
         with:
@@ -70,6 +70,25 @@ jobs:
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
 
+  ts01:
+    runs-on: ubuntu-latest
+    name: Running action made with TypeScript
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Hello world action
+        uses: ./.github/actions/ts01
+        id: hello
+        with:
+          who-to-greet: 'Blah'
+
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
+
+      - name: Build all
+        run: cd .github/actions/ts01 && yarn && yarn clean && yarn all
+
   release:
     runs-on: ubuntu-latest
     name: Release on new tag
@@ -77,6 +96,7 @@ jobs:
       - hello_world_job
       - via_github
       - composite01
+      - ts01
     steps:
       - name: Checkout
         uses: actions/checkout@v2
