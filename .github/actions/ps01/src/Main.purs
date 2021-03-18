@@ -40,3 +40,7 @@ greetAndSetOutput name = do
   Core.info $ case mb_runner of
     Just runner -> key <> ": " <> runner
     _ -> "NO GITHUB_RUNNER found in process"
+
+  Core.info $ case Process.platform of
+    Just pf -> "Platform: " <> show pf
+    _ -> "Unknown platform"
