@@ -24,11 +24,11 @@ import GitHub.Actions.Core as Core
 import GitHub.Actions.IO as IO
 
 main :: Effect Unit
-main = launchAff_ (getStack >>= work >>> liftEffect)
+main = launchAff_ (runWhich >>= work >>> liftEffect)
 
 work :: String -> Effect Unit
 work stack = do
-  Core.info ("stack: " <> stack)
+  Core.info ("curl: " <> stack)
 
   et_name <- runExceptT $
     Core.getInput {name: "who-to-greet", options: Just {required: true}}
@@ -37,9 +37,9 @@ work stack = do
     Right name -> greetAndSetOutput name
     Left err -> Core.setFailed (message err)
 
-getStack :: Aff String
-getStack = do
-  et_path <- runExceptT (IO.which {tool: "stack", check: Just true})
+runWhich :: Aff String
+runWhich = do
+  et_path <- runExceptT (IO.which {tool: "curl", check: Just true})
   case et_path of
     Right path -> pure path
     Left err -> throwError err
