@@ -4,6 +4,8 @@ This repository contains some codes for playing with GitHub.
 
 ## Foo 
 
+foo foo foo
+
 ### bar
 
 - buzz
