@@ -114,7 +114,8 @@ jobs:
   #     - name: Build all
   #       run: cd .github/actions/ps01 && yarn && yarn clean && yarn all
 
-  job-within-a-container:
+  build-hs-static:
+    name: Build static executable from Haskell Cabal package
     runs-on: ubuntu-latest
     container:
       image: fossa/haskell-static-alpine:ghc-9.4.7
@@ -122,32 +123,42 @@ jobs:
         - 80
       options: --cpus 1
     steps:
-      - name: Show ghc version
-        run: ghc --version
-      - name: Show cabal version
-        run: cabal --version
+      - name: Show versions
+        run: |
+          ghc --version
+          cabal --version
+
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run cabal update
+
+      - name: Update cabal package index
         run: cabal update
+
       - name: Run cabal configure
         run: cabal configure --enable-executable-static
+
       - name: Show cabal.project.local
         run: cat cabal.project.local
-      - name: Build hs-hello
+
+      - name: Run cabal build
         run: cabal build hs-hello
-      - name: Install the executable
+
+      - name: Copy the executable
         run: mkdir ./bin && cp -v $(cabal list-bin hs-hello) ./bin
+
       - name: Strip the executable
         run: strip -s ./bin/hs-hello
-      - name: Show the installed executable
+
+      - name: Run readelf
         run: readelf -d ./bin/hs-hello
+
       - name: Compress executable
         uses: svenstaro/upx-action@v2
         with:
           files: ./bin/hs-hello
           args: -9
           strip: false
+
       - name: Show the executable again
         run: ls -lh bin/hs-hello
 
