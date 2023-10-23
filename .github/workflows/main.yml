@@ -19,7 +19,7 @@ jobs:
     name: A job to say hello
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Hello world action step
         uses: ./
@@ -59,7 +59,7 @@ jobs:
     name: Running composite run steps action
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Hello world action
         uses: ./.github/actions/composite01
@@ -75,7 +75,7 @@ jobs:
   #   name: Running action made with TypeScript
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v2
+  #       uses: actions/checkout@v4
 
   #     - name: Hello world action
   #       uses: ./.github/actions/ts01
@@ -100,7 +100,7 @@ jobs:
   #   runs-on: ${{ matrix.os }}
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v2
+  #       uses: actions/checkout@v4
 
   #     - name: Hello world action
   #       uses: ./.github/actions/ps01
@@ -126,6 +126,30 @@ jobs:
         run: ghc --version
       - name: Show cabal version
         run: cabal --version
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run cabal update
+        run: cabal update
+      - name: Run cabal configure
+        run: cabal configure --enable-executable-static
+      - name: Show cabal.project.local
+        run: cat cabal.project.local
+      - name: Build hs-hello
+        run: cabal build hs-hello
+      - name: Install the executable
+        run: mkdir ./bin && cp -v $(cabal list-bin hs-hello) ./bin
+      - name: Strip the executable
+        run: strip -s ./bin/hs-hello
+      - name: Show the installed executable
+        run: readelf -d ./bin/hs-hello
+      - name: Compress executable
+        uses: svenstaro/upx-action@v2
+        with:
+          files: ./bin/hs-hello
+          args: -9
+          strip: false
+      - name: Show the executable again
+        run: ls -lh bin/hs-hello
 
   release:
     runs-on: ubuntu-latest
@@ -138,7 +162,7 @@ jobs:
       # - ps01
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Download artifacts
         uses: actions/download-artifact@v2
