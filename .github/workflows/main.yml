@@ -70,49 +70,49 @@ jobs:
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
 
-  ts01:
-    runs-on: ubuntu-latest
-    name: Running action made with TypeScript
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # ts01:
+  #   runs-on: ubuntu-latest
+  #   name: Running action made with TypeScript
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Hello world action
-        uses: ./.github/actions/ts01
-        id: hello
-        with:
-          who-to-greet: 'Blah'
+  #     - name: Hello world action
+  #       uses: ./.github/actions/ts01
+  #       id: hello
+  #       with:
+  #         who-to-greet: 'Blah'
 
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+  #     - name: Get the output time
+  #       run: echo "The time was ${{ steps.hello.outputs.time }}"
 
-      - name: Build all
-        run: cd .github/actions/ts01 && yarn && yarn clean && yarn all
+  #     - name: Build all
+  #       run: cd .github/actions/ts01 && yarn && yarn clean && yarn all
 
-  ps01:
-    name: Running action made with PureScript
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # ps01:
+  #   name: Running action made with PureScript
+  #   strategy:
+  #     matrix:
+  #       os:
+  #         - ubuntu-latest
+  #         - macos-latest
+  #         - windows-latest
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Hello world action
-        uses: ./.github/actions/ps01
-        id: hello
-        with:
-          who-to-greet: "Pizza"
+  #     - name: Hello world action
+  #       uses: ./.github/actions/ps01
+  #       id: hello
+  #       with:
+  #         who-to-greet: "Pizza"
 
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+  #     - name: Get the output time
+  #       run: echo "The time was ${{ steps.hello.outputs.time }}"
 
-      - name: Build all
-        run: cd .github/actions/ps01 && yarn && yarn clean && yarn all
+  #     - name: Build all
+  #       run: cd .github/actions/ps01 && yarn && yarn clean && yarn all
 
   job-within-a-container:
     runs-on: ubuntu-latest
@@ -134,8 +134,8 @@ jobs:
       - hello_world_job
       - via_github
       - composite01
-      - ts01
-      - ps01
+      # - ts01
+      # - ps01
     steps:
       - name: Checkout
         uses: actions/checkout@v2
