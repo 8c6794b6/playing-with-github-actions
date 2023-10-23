@@ -114,6 +114,19 @@ jobs:
       - name: Build all
         run: cd .github/actions/ps01 && yarn && yarn clean && yarn all
 
+  job-within-a-container:
+    runs-on: ubuntu-latest
+    container:
+      image: fossa/haskell-static-alpine:ghc-9.4.7
+      ports:
+        - 80
+      options: --cpus 1
+    steps:
+      - name: Show ghc version
+        run: ghc --version
+      - name: Show cabal version
+        run: cabal --version
+
   release:
     runs-on: ubuntu-latest
     name: Release on new tag
