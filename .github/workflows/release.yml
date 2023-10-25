@@ -24,7 +24,7 @@ jobs:
 
       - name: Checkout on new tag
         if: startsWith(github.ref, 'refs/tags')
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Build
         run: echo ${{ github.ref }} > Release.txt
