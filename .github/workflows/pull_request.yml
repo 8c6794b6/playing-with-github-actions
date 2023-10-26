@@ -1,0 +1,10 @@
+name: Pull request
+
+on:
+  pull_request:
+
+jobs:
+  cabal-install:
+    uses: ./.github/workflows/hs-hello.yml
+    with:
+      foo: buzz
