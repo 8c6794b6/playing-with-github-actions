@@ -1,5 +1,6 @@
 comment:
-  layout: "header, diff, flags, components"
+  layout: "header, readh, diff, flags, files"
+  hide_project_coverage: false
 
 coverage:
   status:
