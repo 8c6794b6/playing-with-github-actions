@@ -9,7 +9,6 @@ defaults:
 
 jobs:
   cabal-install:
-    runs-on: ubuntu-latest
     uses: ./.github/workflows/hs-hello.yml
     with:
       foo: buzz
