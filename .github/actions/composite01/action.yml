@@ -19,7 +19,7 @@ runs:
       shell: bash
 
     - id: time
-      run: echo "::set-output name=time::$(date)"
+      run: echo "{time}={$(date)}" >> $GITHUB_OUTPUT
       shell: bash
 
     - run: ${{ github.action_path }}/goodbye.sh
