@@ -125,6 +125,11 @@ jobs:
     with:
       foo: foo foo foo
 
+  stack:
+    uses: ./.github/workflows/hs-hello-stack.yml
+    with:
+      foo: bar bar bar
+
   build-hs-static:
     name: Build static executable from Haskell Cabal package
     runs-on: ubuntu-latest

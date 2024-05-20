@@ -1,0 +1,61 @@
+on:
+  workflow_call:
+    inputs:
+      foo:
+        description: Some description
+        default: 'bar'
+        required: false
+        type: string
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_with_stack:
+    name: Build hs-hello with stack
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup haskell
+        id: setup
+        uses: haskell-actions/setup@v2
+        with:
+          enable-stack: true
+          stack-no-global: true
+          stack-setup-ghc: true
+          ghc-version: 9.6.5
+
+      - name: Show output of haskell setup
+        run: |
+          echo stack-version: ${{ steps.setup.outputs.stack-version }}
+          echo stack-exe:     ${{ steps.setup.outputs.stack-exe }}
+          echo stack-path:    ${{ steps.setup.outputs.stack-path }}
+          echo stack-root:    ${{ steps.setup.outputs.stack-root }}
+
+      - name: Build andtest hs-hello
+        run: |
+          stack build --test --coverage
+
+      - name: Generate coverage report
+        uses: 8c6794b6/hpc-codecov-action@v4
+        with:
+          target: stack:test-main
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
