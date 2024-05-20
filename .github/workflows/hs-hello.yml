@@ -36,7 +36,7 @@ jobs:
           cabal test hs-hello
 
       - name: Generate coverage report
-        uses: 8c6794b6/hpc-codecov-action@v2
+        uses: 8c6794b6/hpc-codecov-action@v4
         with:
           target: cabal:test-main
 
