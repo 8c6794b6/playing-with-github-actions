@@ -44,7 +44,7 @@ jobs:
       - name: Upload the file containing time output
         uses: actions/upload-artifact@v4
         with:
-          name: time-output
+          name: time-output-${{ matrix.os }}
           path: times/${{ matrix.os }}.txt
 
   via_github:
