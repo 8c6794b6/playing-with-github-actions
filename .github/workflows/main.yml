@@ -192,7 +192,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: time-output
+          name: time-output-ubuntu-latest
           path: times
 
       - name: Show downloaded artifacts
