@@ -15,6 +15,9 @@ jobs:
   build_with_stack:
     name: Build hs-hello with stack
 
+    env:
+      cache-version: v1
+
     strategy:
       matrix:
         os:
@@ -30,25 +33,33 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Cache stack related directories
+        uses: ./.github/actions/setup-stack-cache
+        env:
+          hash: ${{ hashFiles('stack.yaml') }}
+        with:
+          cache-key: stack-${{ env.hash }}-${{ env.cache-version }}
+
       - name: Setup haskell
         id: setup
         uses: haskell-actions/setup@v2
         with:
           enable-stack: true
           stack-no-global: true
-          stack-setup-ghc: true
-          ghc-version: 9.6.5
+          cabal-update: false
 
       - name: Show output of haskell setup
         run: |
           echo stack-version: ${{ steps.setup.outputs.stack-version }}
-          echo stack-exe:     ${{ steps.setup.outputs.stack-exe }}
-          echo stack-path:    ${{ steps.setup.outputs.stack-path }}
-          echo stack-root:    ${{ steps.setup.outputs.stack-root }}
+          echo stack-exe: ${{ steps.setup.outputs.stack-exe }}
+          echo stack-path: ${{ steps.setup.outputs.stack-path }}
+          echo stack-root: ${{ steps.setup.outputs.stack-root }}
 
-      - name: Build andtest hs-hello
-        run: |
-          stack build --test --coverage
+      - name: Run stack setup
+        run: stack setup
+
+      - name: Build and test hs-hello
+        run: stack build --test --coverage
 
       - name: Generate coverage report
         uses: 8c6794b6/hpc-codecov-action@v4
