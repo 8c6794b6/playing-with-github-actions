@@ -23,10 +23,14 @@ jobs:
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
+      - name: Show some values in github context
+        run: |
+          echo github.base_ref: ${{ github.base_ref }}
+          echo github.ref_name: ${{ github.ref_name }}
 
   stack:
     needs: pre_job
-    if: needs.pre_job.outputs.should_skip != 'true'
+    if: needs.pre_job.outputs.should_skip != 'true' || github.ref_name == 'main'
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
       foo: bar bar bar
