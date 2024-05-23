@@ -30,7 +30,9 @@ jobs:
 
   stack:
     needs: pre_job
-    if: needs.pre_job.outputs.should_skip != 'true' || github.ref_name == 'main'
+    if: |
+      needs.pre_job.outputs.should_skip != 'true' ||
+      github.ref_name == 'main'
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
       foo: bar bar bar
