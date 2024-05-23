@@ -46,7 +46,6 @@ jobs:
     # if: |
     #   needs.pre_job.outputs.skip_check != 'true' ||
     #   github.ref_name == 'main'
-    # if: ${{ needs.pre_job.outputs.dont_skip == 'true' }}
     if: needs.pre_job.outputs.dont_skip
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
