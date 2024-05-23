@@ -25,6 +25,11 @@ jobs:
         steps.skip_check.outputs.should_skip != 'true' ||
         github.ref_name == 'main'
         }}
+      do_skip: |
+        ${{
+        steps.skip_check.outputs.should_skip == 'true' &&
+        github.ref_name != 'main'
+        }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
@@ -41,12 +46,14 @@ jobs:
         run: |
           echo skip_check: ${{ needs.pre_job.outputs.skip_check }}
           echo dont_skip: ${{ needs.pre_job.outputs.dont_skip }}
+          echo do_skip: ${{ needs.pre_job.outputs.do_skip }}
 
   stack:
     needs: pre_job
-    if: |
-      needs.pre_job.outputs.skip_check != 'true' ||
-      github.ref_name == 'main'
+    if: needs.pre_job.outputs.do_skip != 'true'
+    # if: |
+    #   needs.pre_job.outputs.skip_check != 'true' ||
+    #   github.ref_name == 'main'
     # if: needs.pre_job.outputs.dont_skip != 'false'
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
