@@ -19,23 +19,40 @@ jobs:
   pre_job:
     runs-on: ubuntu-latest
     outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      skip_check: ${{ steps.skip_check.outputs.should_skip }}
+      run_it: >-
+        ${{
+        steps.skip_check.outputs.should_skip != 'true' ||
+        github.ref_name == 'main'
+        }}
+      skip_it: >-
+        ${{
+        steps.skip_check.outputs.should_skip == 'true' &&
+        github.ref_name != 'main'
+        }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: same_content_newer
       - name: Show some values in github context
         run: |
           echo github.base_ref: ${{ github.base_ref }}
           echo github.ref_name: ${{ github.ref_name }}
 
+  show_output:
+    runs-on: ubuntu-latest
+    needs: pre_job
+    steps:
+      - name: Show outputs of pre_job
+        run: |
+          echo skip_check: ${{ needs.pre_job.outputs.skip_check }}
+          echo run_it: ${{ needs.pre_job.outputs.run_it }}
+          echo skip_it: ${{ needs.pre_job.outputs.skip_it }}
+
   stack:
     needs: pre_job
-    if: |
-      needs.pre_job.outputs.should_skip != 'true' ||
-      github.ref_name == 'main'
+    if: ${{ needs.pre_job.outputs.run_it == 'true' }}
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
-      foo: bar bar bar
-
-
-    
+      foo: bar bar bar bar
