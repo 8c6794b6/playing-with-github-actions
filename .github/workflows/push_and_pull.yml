@@ -38,14 +38,14 @@ jobs:
     needs: pre_job
     steps:
       - name: Show outputs of pre_job
-        run: echo dont_skip == ${{ needs.pre_job.outputs.dont_skip }}
+        run: echo dont_skip: ${{ needs.pre_job.outputs.dont_skip }}
 
   stack:
     needs: pre_job
     # if: |
-    #   needs.pre_job.outputs.skip_check !== 'true' ||
+    #   needs.pre_job.outputs.skip_check != 'true' ||
     #   github.ref_name == 'main'
-    if: needs.pre_job.outputs.dont_skip == 'true'
+    if: needs.pre_job.outputs.dont_skip == true
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
       foo: bar bar bar
