@@ -32,7 +32,7 @@ jobs:
 
   stack:
     needs: pre_job
-    if: needs.pre_job.outputs.dont_skip
+    if: needs.pre_job.outputs.dont_skip == 'true'
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
       foo: bar bar bar
