@@ -25,7 +25,7 @@ jobs:
         steps.skip_check.outputs.should_skip != 'true' ||
         github.ref_name == 'main'
         }}
-      skip_it: |
+      skip_it: >-
         ${{
         steps.skip_check.outputs.should_skip == 'true' &&
         github.ref_name != 'main'
