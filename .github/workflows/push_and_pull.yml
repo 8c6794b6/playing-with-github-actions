@@ -50,7 +50,8 @@ jobs:
 
   stack:
     needs: pre_job
-    if: ${{ needs.pre_job.outputs.do_skip != 'true' }}
+    if: ${{ ! fromJSON(needs.pre_job.outputs.do_skip }}
+    # if: ${{ needs.pre_job.outputs.do_skip != 'true' }}
     # if: needs.pre_job.outputs.do_skip != 'true'
     # if: |
     #   needs.pre_job.outputs.skip_check != 'true' ||
