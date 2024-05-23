@@ -51,12 +51,6 @@ jobs:
   stack:
     needs: pre_job
     if: ${{ ! fromJSON(needs.pre_job.outputs.do_skip) }}
-    # if: ${{ needs.pre_job.outputs.do_skip != 'true' }}
-    # if: needs.pre_job.outputs.do_skip != 'true'
-    # if: |
-    #   needs.pre_job.outputs.skip_check != 'true' ||
-    #   github.ref_name == 'main'
-    # if: needs.pre_job.outputs.dont_skip != 'false'
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
       foo: bar bar bar bar
