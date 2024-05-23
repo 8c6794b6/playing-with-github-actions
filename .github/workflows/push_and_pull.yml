@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       skip_check: ${{ steps.skip_check.outputs.should_skip }}
-      run_it: >
+      run_it: >-
         ${{
         steps.skip_check.outputs.should_skip != 'true' ||
         github.ref_name == 'main'
