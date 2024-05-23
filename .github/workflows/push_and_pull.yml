@@ -38,7 +38,7 @@ jobs:
     needs: pre_job
     steps:
       - name: Show outputs of pre_job
-        run: echo dont_skip: ${{ needs.pre_job.outputs.dont_skip }}
+        run: echo "dont_skip: ${{ needs.pre_job.outputs.dont_skip }}"
 
   stack:
     needs: pre_job
