@@ -52,7 +52,6 @@ jobs:
 
   stack:
     needs: pre_job
-    # if: ${{ ! fromJSON(needs.pre_job.outputs.skip_it) }}
     # if: fromJSON(needs.pre_job.outputs.run_it)
     if: ${{ needs.pre_job.outputs.run_it == 'true' }}
     uses: ./.github/workflows/hs-hello-stack.yml
