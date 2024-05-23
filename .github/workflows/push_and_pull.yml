@@ -20,12 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       skip_check: ${{ steps.skip_check.outputs.should_skip }}
-      dont_skip: |
+      run_it: |
         ${{
         steps.skip_check.outputs.should_skip != 'true' ||
         github.ref_name == 'main'
         }}
-      do_skip: |
+      skip_it: |
         ${{
         steps.skip_check.outputs.should_skip == 'true' &&
         github.ref_name != 'main'
@@ -47,13 +47,13 @@ jobs:
       - name: Show outputs of pre_job
         run: |
           echo skip_check: ${{ needs.pre_job.outputs.skip_check }}
-          echo dont_skip: ${{ needs.pre_job.outputs.dont_skip }}
-          echo do_skip: ${{ needs.pre_job.outputs.do_skip }}
+          echo run_it: ${{ needs.pre_job.outputs.run_it }}
+          echo skip_it: ${{ needs.pre_job.outputs.skip_it }}
 
   stack:
     needs: pre_job
-    # if: ${{ ! fromJSON(needs.pre_job.outputs.do_skip) }}
-    if: fromJSON(needs.pre_job.outputs.dont_skip)
+    # if: ${{ ! fromJSON(needs.pre_job.outputs.skip_it) }}
+    if: fromJSON(needs.pre_job.outputs.run_it)
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
       foo: bar bar bar bar
