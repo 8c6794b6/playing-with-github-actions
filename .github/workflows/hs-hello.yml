@@ -28,9 +28,13 @@ jobs:
       - name: Echo foo
         run: echo ${{ inputs.foo }}
 
+      - name: Show paths and versions
+        run: |
+          which cabal && cabal --version
+          which ghc && ghc --version
+
       - name: Build and test hs-hello
         run: |
-          cabal update
           cabal configure --enable-coverage
           cabal build hs-hello
           cabal test hs-hello
