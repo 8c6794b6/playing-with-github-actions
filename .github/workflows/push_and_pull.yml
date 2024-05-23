@@ -33,6 +33,8 @@ jobs:
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: same_content_newer
       - name: Show some values in github context
         run: |
           echo github.base_ref: ${{ github.base_ref }}
