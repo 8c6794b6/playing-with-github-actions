@@ -14,6 +14,17 @@ defaults:
     shell: bash
 
 jobs:
+  pre_job:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: never
+          skip_after_successful_duplicate: true
+
   hello_world_job:
     strategy:
       matrix:
@@ -126,6 +137,8 @@ jobs:
       foo: foo foo foo
 
   stack:
+    needs: pre_job
+    if: needs.pre_job.outputs.should_skip != 'true'
     uses: ./.github/workflows/hs-hello-stack.yml
     with:
       foo: bar bar bar
