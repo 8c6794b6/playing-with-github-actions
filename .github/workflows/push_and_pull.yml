@@ -21,8 +21,10 @@ jobs:
     outputs:
       # skip_check: ${{ steps.skip_check.outputs.should_skip }}
       dont_skip: |
-        ${{ steps.skip_check.outputs.should_skip }} != 'true' ||
+        ${{
+        steps.skip_check.outputs.should_skip != 'true' ||
         github.ref_name == 'main'
+        }}
     steps:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@v5
